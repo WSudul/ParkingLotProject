@@ -18,7 +18,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <org.mockito-core.version>2.21.0</org.mockito-core.version>
+        <h2db.version>1.4.197</h2db.version>
+        <java-xml-bind.version>2.3.0</java-xml-bind.version>
         <java.version>9.0</java.version>
         <maven.compiler.source>9.0</maven.compiler.source>
         <maven.compiler.target>9.0</maven.compiler.target>
@@ -42,6 +43,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${java-xml-bind.version}</version>
+        </dependency>
+
 
         <!-- test scoped -->
         <dependency>
@@ -58,6 +65,13 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2db.version}</version>
             <scope>test</scope>
         </dependency>
 
