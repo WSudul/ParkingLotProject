@@ -13,7 +13,6 @@ public class Plate {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
-    private Credit credit; //todo credits mapping to plate or user ?
     @OneToMany(mappedBy = "plate")
     private List<Payment> payments;
     @ManyToOne
