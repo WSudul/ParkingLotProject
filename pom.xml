@@ -18,14 +18,24 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <h2db.version>1.4.197</h2db.version>
+        <h2database.version>1.4.196</h2database.version>
         <java-xml-bind.version>2.3.0</java-xml-bind.version>
-        <java.version>9.0</java.version>
-        <maven.compiler.source>9.0</maven.compiler.source>
-        <maven.compiler.target>9.0</maven.compiler.target>
+        <java.version>9</java.version>
+        <maven.compiler.source>9</maven.compiler.source>
+        <maven.compiler.target>9</maven.compiler.target>
     </properties>
 
     <dependencies>
+
+        <!--maven compiler plugin dependency-->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.0</version>
+        </dependency>
+
+        <!--spring dependendencies-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -43,6 +53,18 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--other dependencies-->
+
+        <!--database access-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2database.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <!--JAXB - deprecated Java EE module required to launch app-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -62,18 +84,20 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2db.version}</version>
-            <scope>test</scope>
-        </dependency>
+        <!--to be enabled when h2 is replaced with different database driver-->
+        <!--<dependency>-->
+        <!--<groupId>com.h2database</groupId>-->
+        <!--<artifactId>h2</artifactId>-->
+        <!--<version>${h2database.version}</version>-->
+        <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
     </dependencies>
 </project>
