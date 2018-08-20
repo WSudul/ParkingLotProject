@@ -1,14 +1,15 @@
 package lot.service;
 
 
-import lot.model.Plate;
+import lot.model.LotEntry;
 import lot.repository.CreditRepository;
 import lot.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 @Service
 public class PaymentService {
@@ -22,32 +23,32 @@ public class PaymentService {
         this.creditRepository = creditRepository;
     }
 
+    public boolean processPayment(LotEntry lotEntry) {
 
-    /**
-     * @param plate licence plate
-     * @return false if vehicle is already in lot otherwise true
-     */
-    public boolean logEntry(Plate plate) {
-        //todo implementation
         return false;
     }
 
-    /**
-     * @param plate licence plate
-     * @return false if vehicle was not in lot otherwise true
-     */
-    public boolean logDeparture(Plate plate) {
-        //todo implementation
-        return false;
+    public Optional<Long> calculatePaymentValue(LotEntry lotEntry) {
+
+        if (lotEntry.getPaid()) {
+            return null;
+        }
+
+        OffsetDateTime dateFrom = lotEntry.getDateFrom();
+        OffsetDateTime dateNow = OffsetDateTime.now();
+
+
+        //todo formalize and add configurable units and fares
+        ChronoUnit chronoUnit = ChronoUnit.MINUTES;
+        long fare = 10; //equivalent to 0.01
+
+        long duration = dateFrom.until(dateNow, chronoUnit);
+        Long paymentValue = duration * fare;
+
+
+        return Optional.ofNullable(paymentValue);
+
     }
 
-    public boolean isVehicleInLot(Plate plate) {
-        //todo implementation
-        return false;
-    }
-
-    public List<Plate> currentLotStatus() {
-        return new ArrayList<>();
-    }
 
 }
