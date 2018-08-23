@@ -12,9 +12,10 @@ import java.util.Optional;
 @Repository
 public interface LotEntryRepository extends JpaRepository<LotEntry, Long> {
 
-    Optional<LotEntry> findOneByPlateAndDateFromIsNull(Plate plate);
+    Optional<LotEntry> findOneByPlateAndDateToIsNull(Plate plate);
 
-    List<LotEntry> findAllByDateFromIsNull();
+
+    List<LotEntry> findAllByDateToIsNull();
 
 
 }
