@@ -9,7 +9,7 @@ import lot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 @Service
 public class UserService {
@@ -25,7 +25,7 @@ public class UserService {
 
     public User registerNewUserAccount(UserRegistrationData userRegistrationData) {
 
-        if (userRepository.findOneByEmail(userRegistrationData.getEmail()).isPresent()) {
+        if (userRepository.findOneByLogin(userRegistrationData.getEmail()).isPresent()) {
             //log error
             return null;
         }
@@ -47,7 +47,7 @@ public class UserService {
         user.setNickname(userRegistrationData.getNickname());
         //todo password handling
 
-        user.setPlates(new ArrayList<Plate>());
+        user.setPlates(new HashSet<>());
 
         Plate plate = new Plate();
         plate.setPlate(userRegistrationData.getPlateText());
