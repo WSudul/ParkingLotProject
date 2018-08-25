@@ -1,11 +1,13 @@
 package lot.service;
 
+import lot.model.LotEntry;
 import lot.model.Plate;
 import lot.repository.LotEntryRepository;
 import lot.service.config.TestConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,7 +27,8 @@ public class EntryServiceTest {
     @MockBean
     private LotEntryRepository lotEntryRepositoryMock;
 
-    private EntryService entryService = new EntryService(lotEntryRepositoryMock);
+    @Autowired
+    private EntryService entryService;
 
 
     private Plate plate;
@@ -40,7 +43,7 @@ public class EntryServiceTest {
     @Test
     public void logEntry_ReturnTrue_WhenNewVehicleEnters() throws Exception {
 
-        when(lotEntryRepositoryMock.findOneByPlateAndDateFromIsNull(plate)).thenReturn(Optional.ofNullable(null));
+        when(lotEntryRepositoryMock.findOneByPlateAndDateToIsNull(plate)).thenReturn(Optional.ofNullable(null));
         assertTrue(entryService.logEntry(plate));
 
     }
@@ -64,8 +67,8 @@ public class EntryServiceTest {
     @Test
     public void currentLotStatus_ReturnAllPlatesInLot() throws Exception {
 
-        List<Plate> plates = entryService.currentLotStatus();
-        assertFalse(plates.isEmpty());
+        List<LotEntry> entries = entryService.currentLotStatus();
+        assertFalse(entries.isEmpty());
 
 
     }

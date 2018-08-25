@@ -1,17 +1,19 @@
 package lot.service;
 
 
+import lot.model.LotEntry;
 import lot.model.Plate;
 import lot.repository.LotEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EntryService {
-    private final LotEntryRepository lotEntryRepository;
+    private LotEntryRepository lotEntryRepository;
 
     @Autowired
     public EntryService(LotEntryRepository lotEntryRepository) {
@@ -24,8 +26,22 @@ public class EntryService {
      * @return false if vehicle is already in lot otherwise true
      */
     public boolean logEntry(Plate plate) {
-        //todo implementation
-        return false;
+        Optional<LotEntry> entry = lotEntryRepository.findOneByPlateAndDateToIsNull(plate);
+
+        if (entry.isPresent()) {
+            //log error
+            return false;
+        } else {
+            LotEntry lotEntry = new LotEntry();
+            lotEntry.setDateFrom(OffsetDateTime.now());
+            lotEntry.setPayment(null);
+            lotEntry.setPlate(plate);
+
+            lotEntryRepository.save(lotEntry);
+
+            return true;
+        }
+
     }
 
     /**
@@ -33,17 +49,31 @@ public class EntryService {
      * @return false if vehicle was not in lot otherwise true
      */
     public boolean logDeparture(Plate plate) {
-        //todo implementation
-        return false;
+        Optional<LotEntry> entry = lotEntryRepository.findOneByPlateAndDateToIsNull(plate);
+
+        if (entry.isPresent()) {
+
+            LotEntry lotEntry = entry.get();
+            lotEntry.setDateTo(OffsetDateTime.now());
+            lotEntryRepository.save(lotEntry);
+
+            return true;
+
+        } else {
+            //todo log invalid state
+            return false;
+        }
+
+
     }
 
     public boolean isVehicleInLot(Plate plate) {
-        //todo implementation
-        return false;
+
+        return lotEntryRepository.findOneByPlateAndDateToIsNull(plate).isPresent();
     }
 
-    public List<Plate> currentLotStatus() {
-        return new ArrayList<>();
+    public List<LotEntry> currentLotStatus() {
+        return lotEntryRepository.findAllByDateToIsNull();
     }
 
 }
