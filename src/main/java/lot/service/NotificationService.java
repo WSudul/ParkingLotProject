@@ -7,6 +7,8 @@ import lot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class NotificationService {
 
@@ -21,7 +23,7 @@ public class NotificationService {
      * @param plate licence plate
      */
     void notifyPlateOwner(Plate plate, String notification) {
-        User user = userRepository.findOneByPlatesContaining(plate);
+        Optional<User> user = userRepository.findOneByPlatesContaining(plate);
 
         //todo add Firebase Cloud Messaging dependency and use it here (for Android) and/or other service that can
         // handle IOS
