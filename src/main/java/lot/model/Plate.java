@@ -13,9 +13,8 @@ public class Plate {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
-    @OneToMany(mappedBy = "plate")
-    private List<Payment> payments;
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "plate")
     private List<LotEntry> lotEntries;
@@ -45,13 +44,6 @@ public class Plate {
         this.country = country;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
 
     public User getUser() {
         return user;

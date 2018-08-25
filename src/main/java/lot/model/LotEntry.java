@@ -13,8 +13,8 @@ public class LotEntry {
     private Plate plate;
     private OffsetDateTime dateFrom;
     private OffsetDateTime dateTo;
-    private Boolean isPaid;
-
+    @OneToOne(mappedBy = "lotEntry", fetch = FetchType.LAZY)
+    private Payment payment;
 
     public Long getId() {
         return id;
@@ -48,11 +48,13 @@ public class LotEntry {
         this.dateTo = dateTo;
     }
 
-    public Boolean getPaid() {
-        return isPaid;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setPaid(Boolean paid) {
-        isPaid = paid;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
+
+
 }

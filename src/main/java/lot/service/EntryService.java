@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Service
 public class EntryService {
-    private final LotEntryRepository lotEntryRepository;
+    private LotEntryRepository lotEntryRepository;
 
     @Autowired
     public EntryService(LotEntryRepository lotEntryRepository) {
@@ -34,7 +34,7 @@ public class EntryService {
         } else {
             LotEntry lotEntry = new LotEntry();
             lotEntry.setDateFrom(OffsetDateTime.now());
-            lotEntry.setPaid(false);
+            lotEntry.setPayment(null);
             lotEntry.setPlate(plate);
 
             lotEntryRepository.save(lotEntry);

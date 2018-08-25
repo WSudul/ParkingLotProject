@@ -30,19 +30,19 @@ public class PaymentService {
 
     public Optional<Long> calculatePaymentValue(LotEntry lotEntry) {
 
-        if (lotEntry.getPaid()) {
+        if (null != lotEntry.getPayment()) {
             return null;
         }
 
         OffsetDateTime dateFrom = lotEntry.getDateFrom();
-        OffsetDateTime dateNow = OffsetDateTime.now();
+        OffsetDateTime dateTo = lotEntry.getDateTo() == null ? OffsetDateTime.now() : lotEntry.getDateTo();
 
 
         //todo formalize and add configurable units and fares
         ChronoUnit chronoUnit = ChronoUnit.MINUTES;
         long fare = 10; //equivalent to 0.01
 
-        long duration = dateFrom.until(dateNow, chronoUnit);
+        long duration = dateFrom.until(dateTo, chronoUnit);
         Long paymentValue = duration * fare;
 
 

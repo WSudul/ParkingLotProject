@@ -6,7 +6,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -16,12 +16,11 @@ public class User {
     @NotEmpty
     @NotNull
     private String login;
-
     private String nickname;
     @OneToMany(mappedBy = "user")
-    private List<Plate> plates;
+    private Set<Plate> plates;
     @OneToOne(mappedBy = "user")
-    private Credit credit; //todo credits mapping to plate or user ?
+    private Credit credit;
 
     public Long getId() {
         return id;
@@ -47,11 +46,11 @@ public class User {
         this.nickname = nickname;
     }
 
-    public List<Plate> getPlates() {
+    public Set<Plate> getPlates() {
         return plates;
     }
 
-    public void setPlates(List<Plate> plates) {
+    public void setPlates(Set<Plate> plates) {
         this.plates = plates;
     }
 
