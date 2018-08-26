@@ -1,0 +1,20 @@
+syntax = "proto3";
+package plate;
+
+
+message Plate {
+    string plate = 1;
+}
+
+message PlateValidationRequest {
+    Plate plate = 1;
+    fixed64 timestamp = 2;
+    string requester = 3;
+}
+
+message PlateValidationResponse {
+    Plate plate = 1;
+    fixed64 timestamp = 2;
+    bool validated = 3;
+    repeated string details = 4;
+}
