@@ -1,6 +1,7 @@
 syntax = "proto3";
 package plate;
 
+import "google/protobuf/timestamp.proto";
 
 message Plate {
     string plate = 1;
@@ -8,13 +9,13 @@ message Plate {
 
 message PlateValidationRequest {
     Plate plate = 1;
-    fixed64 timestamp = 2;
+    google.protobuf.Timestamp timestamp = 2;
     string requester = 3;
 }
 
 message PlateValidationResponse {
     Plate plate = 1;
-    fixed64 timestamp = 2;
+    google.protobuf.Timestamp timestamp = 2;
     bool validated = 3;
     repeated string details = 4;
 }
