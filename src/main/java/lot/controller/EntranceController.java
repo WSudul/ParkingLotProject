@@ -68,6 +68,41 @@ public class EntranceController {
         }
     }
 
+    @RequestMapping(value = "departure", method = RequestMethod.POST)
+    public ResponseEntity<PlateValidation.PlateValidationResponse> logDeparture(@RequestBody PlateValidation
+            .PlateValidationRequest message) {
+
+        Optional<Plate> matchingPlate = plateService.findMatchingPlate(message.getPlate());
+
+        PlateValidation.PlateValidationResponse.Builder messageBuilder = PlateValidation.PlateValidationResponse
+                .newBuilder()
+                .setPlate(message.getPlate());
+
+        if (matchingPlate.isPresent()) {
+
+            boolean result = entryService.logDeparture(matchingPlate.get());
+            messageBuilder = addCurrentTimestamp(messageBuilder);
+
+            if (result) {
+                messageBuilder.setValidated(true);
+                return ResponseEntity.ok().body(messageBuilder.build());
+            } else {
+                messageBuilder.setValidated(false);
+                messageBuilder.addDetails("Vehicle logged as not present in lot");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(messageBuilder.build());
+
+            }
+
+
+        } else {
+            messageBuilder = addCurrentTimestamp(messageBuilder);
+            messageBuilder.addDetails("Plate not recognized by system");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageBuilder.build());
+        }
+
+
+    }
+
     private PlateValidation.PlateValidationResponse.Builder addCurrentTimestamp(PlateValidation
                                                                                         .PlateValidationResponse
                                                                                         .Builder builder) {
@@ -80,9 +115,5 @@ public class EntranceController {
     }
 
 
-    @RequestMapping(value = "departure", method = RequestMethod.POST)
-    public void logDeparture() {
-
-    }
 
 }
