@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EntryService {
@@ -72,8 +73,12 @@ public class EntryService {
         return lotEntryRepository.findOneByPlateAndDateToIsNull(plate).isPresent();
     }
 
-    public List<LotEntry> currentLotStatus() {
+    public Set<LotEntry> currentLotStatus() {
         return lotEntryRepository.findAllByDateToIsNull();
     }
 
+    public Set<Plate> GetPlatesInLot() {
+        return lotEntryRepository.findAllByDateToIsNull().stream().map(LotEntry::getPlate).collect(
+                Collectors.toSet());
+    }
 }

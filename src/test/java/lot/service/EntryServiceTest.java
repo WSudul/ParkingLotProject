@@ -12,11 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 
@@ -65,12 +64,37 @@ public class EntryServiceTest {
 
 
     @Test
-    public void currentLotStatus_ReturnAllPlatesInLot() throws Exception {
+    public void currentLotStatus_ReturnAllLotEntries() throws Exception {
+        LotEntry lotEntry1 = new LotEntry();
+        lotEntry1.setId(1L);
+        LotEntry lotEntry2 = new LotEntry();
+        lotEntry2.setId(2L);
+        Set<LotEntry> lotEntries = Set.of(lotEntry1, lotEntry2);
 
-        List<LotEntry> entries = entryService.currentLotStatus();
-        assertFalse(entries.isEmpty());
-
+        when(lotEntryRepositoryMock.findAllByDateToIsNull()).thenReturn(lotEntries);
+        Set<LotEntry> entries = entryService.currentLotStatus();
+        assertEquals(lotEntries, entries);
 
     }
+
+    @Test
+    public void getPlatesInLot_ReturnAllPlatesInLot() throws Exception {
+        LotEntry lotEntry1 = new LotEntry();
+        lotEntry1.setId(1L);
+        Plate plate1 = new Plate();
+        plate1.setPlate("123");
+        lotEntry1.setPlate(plate1);
+        LotEntry lotEntry2 = new LotEntry();
+        lotEntry2.setId(2L);
+        Plate plate2 = new Plate();
+        plate2.setPlate("456");
+        lotEntry2.setPlate(plate2);
+        Set<LotEntry> lotEntries = Set.of(lotEntry1, lotEntry2);
+        when(lotEntryRepositoryMock.findAllByDateToIsNull()).thenReturn(lotEntries);
+
+        Set<Plate> entries = entryService.GetPlatesInLot();
+        assertEquals(Set.of(plate1, plate2), entries);
+    }
+
 
 }
