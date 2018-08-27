@@ -64,7 +64,7 @@ public class EntranceController {
         } else {
             messageBuilder = addCurrentTimestamp(messageBuilder);
             messageBuilder.addDetails("Plate not recognized by system");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(messageBuilder.build());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageBuilder.build());
         }
     }
 
