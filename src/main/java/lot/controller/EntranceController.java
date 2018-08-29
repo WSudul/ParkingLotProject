@@ -17,6 +17,7 @@ import plate.PlateValidation;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,6 +40,14 @@ public class EntranceController {
         this.plateService = plateService;
     }
 
+    @RequestMapping(value = "bar", method = RequestMethod.GET)
+    public Plate foo() {
+        Plate plate = new Plate();
+        plate.setPlate("dupa");
+        plate.setId(1001L);
+        return plate;
+
+    }
 
     @RequestMapping(value = "entrance", method = RequestMethod.POST)
     public ResponseEntity<PlateValidation.PlateValidationResponse> logEntry(@RequestBody PlateValidation
@@ -53,14 +62,9 @@ public class EntranceController {
             boolean result = entryService.logEntry(matchingPlate.get());
             messageBuilder = addCurrentTimestamp(messageBuilder);
 
-            if (result) {
-                messageBuilder.setValidated(true);
-                return ResponseEntity.ok().body(messageBuilder.build());
-            } else {
-                messageBuilder.setValidated(false);
-                messageBuilder.addDetails("Vehicle is already in the lot");
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(messageBuilder.build());
-            }
+            return buildResponse(messageBuilder, result, List.of("Vehicle is already in the lot"));
+
+
         } else {
             messageBuilder = addCurrentTimestamp(messageBuilder);
             messageBuilder.addDetails("Plate not recognized by system");
@@ -83,16 +87,7 @@ public class EntranceController {
             boolean result = entryService.logDeparture(matchingPlate.get());
             messageBuilder = addCurrentTimestamp(messageBuilder);
 
-            if (result) {
-                messageBuilder.setValidated(true);
-                return ResponseEntity.ok().body(messageBuilder.build());
-            } else {
-                messageBuilder.setValidated(false);
-                messageBuilder.addDetails("Vehicle logged as not present in lot");
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(messageBuilder.build());
-
-            }
-
+            return buildResponse(messageBuilder, result, List.of("Vehicle logged as not present in lot"));
 
         } else {
             messageBuilder = addCurrentTimestamp(messageBuilder);
@@ -101,6 +96,20 @@ public class EntranceController {
         }
 
 
+    }
+
+    private ResponseEntity<PlateValidation.PlateValidationResponse> buildResponse(PlateValidation
+                                                                                          .PlateValidationResponse
+                                                                                          .Builder builder, boolean
+            result, List<String> details) {
+        if (result) {
+            builder.setValidated(true);
+            return ResponseEntity.ok().body(builder.build());
+        } else {
+            builder.setValidated(false);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(builder.build());
+
+        }
     }
 
     private PlateValidation.PlateValidationResponse.Builder addCurrentTimestamp(PlateValidation
