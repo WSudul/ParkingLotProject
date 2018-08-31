@@ -5,8 +5,8 @@ import java.time.Instant;
 public class LotStatus {
 
     private String location;
-    private Long capacity;
-    private Long occupied;
+    private Integer capacity;
+    private Integer occupied;
     private Instant lastUpdate;
 
     public String getLocation() {
@@ -17,19 +17,19 @@ public class LotStatus {
         this.location = location;
     }
 
-    public Long getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Long capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
-    public Long getOccupied() {
+    public Integer getOccupied() {
         return occupied;
     }
 
-    public void setOccupied(Long occupied) {
+    public void setOccupied(Integer occupied) {
         this.occupied = occupied;
     }
 

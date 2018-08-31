@@ -1,9 +1,11 @@
 package lot.service;
 
 
+import lot.model.Lot;
 import lot.model.LotEntry;
 import lot.model.Plate;
 import lot.repository.LotEntryRepository;
+import lot.repository.LotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.Optional;
 @Service
 public class EntryService {
     private LotEntryRepository lotEntryRepository;
+    private LotRepository lotRepository;
 
     @Autowired
     public EntryService(LotEntryRepository lotEntryRepository) {
@@ -79,6 +82,10 @@ public class EntryService {
     public List<LotEntry> entryHistory(String plate_text) {
         return lotEntryRepository.findAllByPlate_Plate(plate_text);
 
+    }
+
+    public Lot lotDescription() {
+        return lotRepository.findOne();
     }
 
 }
