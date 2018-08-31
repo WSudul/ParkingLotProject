@@ -81,4 +81,9 @@ public class EntryService {
         return lotEntryRepository.findAllByDateToIsNull().stream().map(LotEntry::getPlate).collect(
                 Collectors.toSet());
     }
+    public List<LotEntry> entryHistory(String plate_text) {
+        return lotEntryRepository.findAllByPlate_Plate(plate_text);
+
+    }
+
 }
