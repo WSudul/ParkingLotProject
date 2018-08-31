@@ -24,9 +24,9 @@ public class StatusController {
         LotStatus lotStatus = new LotStatus();
         Lot description = entryService.lotDescription();
         lotStatus.setOccupied(entryService.currentLotStatus().size());
-        lotStatus.setCapacity(description.getCapacity()); //todo add method to service
+        lotStatus.setCapacity(description.getCapacity());
         lotStatus.setLastUpdate(Instant.now());
-        lotStatus.setLocation(description.getLocation()); //todo location
+        lotStatus.setLocation(description.getLocation());
         return lotStatus;
     }
 
