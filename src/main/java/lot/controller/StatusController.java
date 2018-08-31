@@ -1,5 +1,6 @@
 package lot.controller;
 
+import lot.model.Lot;
 import lot.model.LotEntry;
 import lot.model.LotStatus;
 import lot.service.EntryService;
@@ -21,11 +22,11 @@ public class StatusController {
     @RequestMapping(value = "/capacity", method = RequestMethod.GET)
     LotStatus checkLotStatus() {
         LotStatus lotStatus = new LotStatus();
-
-        lotStatus.setOccupied((long) entryService.currentLotStatus().size());
-        lotStatus.setCapacity(100L); //todo add method to service
+        Lot description = entryService.lotDescription();
+        lotStatus.setOccupied(entryService.currentLotStatus().size());
+        lotStatus.setCapacity(description.getCapacity()); //todo add method to service
         lotStatus.setLastUpdate(Instant.now());
-        lotStatus.setLocation("Location-1"); //todo location
+        lotStatus.setLocation(description.getLocation()); //todo location
         return lotStatus;
     }
 
