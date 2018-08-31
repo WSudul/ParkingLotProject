@@ -13,9 +13,9 @@ import java.util.Optional;
 public interface LotEntryRepository extends JpaRepository<LotEntry, Long> {
 
     Optional<LotEntry> findOneByPlateAndDateToIsNull(Plate plate);
-
-
     List<LotEntry> findAllByDateToIsNull();
+
+    List<LotEntry> findAllByPlate_Plate(String plate);
 
 
 }

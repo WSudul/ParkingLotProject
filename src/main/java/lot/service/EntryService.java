@@ -76,4 +76,9 @@ public class EntryService {
         return lotEntryRepository.findAllByDateToIsNull();
     }
 
+    public List<LotEntry> entryHistory(String plate_text) {
+        return lotEntryRepository.findAllByPlate_Plate(plate_text);
+
+    }
+
 }
