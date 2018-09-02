@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LotRepository extends JpaRepository<Lot, String> {
 
-    Lot findOne();
-
+    Lot findFirstByLocationNotNull();
 
 }

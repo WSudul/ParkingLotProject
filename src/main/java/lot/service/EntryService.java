@@ -20,8 +20,9 @@ public class EntryService {
     private LotRepository lotRepository;
 
     @Autowired
-    public EntryService(LotEntryRepository lotEntryRepository) {
+    public EntryService(LotEntryRepository lotEntryRepository, LotRepository lotRepository) {
         this.lotEntryRepository = lotEntryRepository;
+        this.lotRepository = lotRepository;
     }
 
 
@@ -90,7 +91,7 @@ public class EntryService {
     }
 
     public Lot lotDescription() {
-        return lotRepository.findOne();
+        return lotRepository.findFirstByLocationNotNull();
     }
 
 }
