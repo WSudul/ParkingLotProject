@@ -37,8 +37,8 @@ public class StatusController {
 
 
     @RequestMapping(value = "/entries", method = RequestMethod.GET)
-    List<LotEntry> entryHistory(@RequestParam String plate) {
-        return entryService.entryHistory(plate);
+    List<LotEntry> entryHistory(@RequestParam String plateText) {
+        return entryService.entryHistory(plateText);
     }
 
 
