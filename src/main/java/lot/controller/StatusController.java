@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/status/")
@@ -31,13 +31,13 @@ public class StatusController {
     }
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
-    List<LotEntry> currentLotStatus() {
+    Set<LotEntry> currentLotStatus() {
         return entryService.currentLotStatus();
     }
 
 
     @RequestMapping(value = "/entries", method = RequestMethod.GET)
-    List<LotEntry> entryHistory(@RequestParam String plate) {
+    Set<LotEntry> entryHistory(@RequestParam String plate) {
         return entryService.entryHistory(plate);
     }
 

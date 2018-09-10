@@ -36,7 +36,7 @@ public class EntryServiceTest {
 
 
     private Plate plate;
-    private List<LotEntry> returned_entries;
+    private Set<LotEntry> returned_entries;
     private LotEntry lotEntry_1;
     private LotEntry lotEntry_2;
 
@@ -49,7 +49,7 @@ public class EntryServiceTest {
         LotEntry lotEntry_2 = new LotEntry();
         lotEntry_1.setId(1L);
         lotEntry_2.setId(2L);
-        returned_entries = List.of(lotEntry_1, lotEntry_2);
+        returned_entries = Set.of(lotEntry_1, lotEntry_2);
     }
 
     @Test
@@ -106,12 +106,14 @@ public class EntryServiceTest {
 
         Set<Plate> entries = entryService.GetPlatesInLot();
         assertEquals(Set.of(plate1, plate2), entries);
+    }
+
     @Test
     public void entryHistory() throws Exception {
         String plateText = "123-ABC";
 
         when(lotEntryRepositoryMock.findAllByPlate_Plate(plateText)).thenReturn(returned_entries);
-        List<LotEntry> entries = entryService.entryHistory(plateText);
+        Set<LotEntry> entries = entryService.entryHistory(plateText);
         assertEquals(returned_entries, entries);
     }
 
