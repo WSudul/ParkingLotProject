@@ -1,23 +1,28 @@
 package lot.service;
 
 
+import lot.model.Lot;
 import lot.model.LotEntry;
 import lot.model.Plate;
 import lot.repository.LotEntryRepository;
+import lot.repository.LotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EntryService {
     private LotEntryRepository lotEntryRepository;
+    private LotRepository lotRepository;
 
     @Autowired
-    public EntryService(LotEntryRepository lotEntryRepository) {
+    public EntryService(LotEntryRepository lotEntryRepository, LotRepository lotRepository) {
         this.lotEntryRepository = lotEntryRepository;
+        this.lotRepository = lotRepository;
     }
 
 
@@ -72,8 +77,22 @@ public class EntryService {
         return lotEntryRepository.findOneByPlateAndDateToIsNull(plate).isPresent();
     }
 
-    public List<LotEntry> currentLotStatus() {
+    public Set<LotEntry> currentLotStatus() {
         return lotEntryRepository.findAllByDateToIsNull();
+    }
+
+    public Set<Plate> GetPlatesInLot() {
+        return lotEntryRepository.findAllByDateToIsNull().stream().map(LotEntry::getPlate).collect(
+                Collectors.toSet());
+    }
+
+    public Set<LotEntry> entryHistory(String plate_text) {
+        return lotEntryRepository.findAllByPlate_Plate(plate_text);
+
+    }
+
+    public Lot lotDescription() {
+        return lotRepository.findFirstByLocationNotNull();
     }
 
 }

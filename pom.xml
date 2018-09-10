@@ -14,6 +14,31 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.4.RELEASE</version>
     </parent>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.os72</groupId>
+                <artifactId>protoc-jar-maven-plugin</artifactId>
+                <version>3.6.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <addProtoSources>all</addProtoSources>
+                            <includeMavenTypes>direct</includeMavenTypes>
+                            <includeDirectories>
+                                <include>src/main/protobuf</include>
+                            </includeDirectories>
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,6 +79,20 @@
         </dependency>
 
         <!--other dependencies-->
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protoc</artifactId>
+            <version>3.6.1</version>
+            <type>pom</type>
+        </dependency>
+
 
         <!--database access-->
         <dependency>
