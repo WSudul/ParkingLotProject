@@ -18,7 +18,6 @@ public class StatusController {
 
     private EntryService entryService;
 
-
     @RequestMapping(value = "/capacity", method = RequestMethod.GET)
     LotStatus checkLotStatus() {
         LotStatus lotStatus = new LotStatus();
@@ -34,8 +33,7 @@ public class StatusController {
     Set<LotEntry> currentLotStatus() {
         return entryService.currentLotStatus();
     }
-
-
+    
     @RequestMapping(value = "/entries", method = RequestMethod.GET)
     Set<LotEntry> entryHistory(@RequestParam String plate) {
         return entryService.entryHistory(plate);
