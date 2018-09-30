@@ -19,4 +19,8 @@ public class Errors {
         return errors;
     }
 
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
 }
