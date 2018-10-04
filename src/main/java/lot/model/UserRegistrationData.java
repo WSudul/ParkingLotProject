@@ -20,6 +20,9 @@ public class UserRegistrationData {
         this.password = password;
     }
 
+    public UserRegistrationData() {
+    }
+
 
     public String getEmail() {
         return email;
