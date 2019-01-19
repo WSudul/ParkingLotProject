@@ -22,7 +22,7 @@ public class NotificationService {
     /**
      * @param plate licence plate
      */
-    void notifyPlateOwner(Plate plate, String notification) {
+    public void notifyPlateOwner(Plate plate, String notification) {
         Optional<User> user = userRepository.findOneByPlatesContaining(plate);
 
         //todo add Firebase Cloud Messaging dependency and use it here (for Android) and/or other service that can
