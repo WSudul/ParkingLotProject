@@ -1,21 +1,22 @@
 package lot.model;
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.time.Instant;
 
 public class LotStatus {
 
-    private String location;
+    @Id
+    private Long id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lot_id")
+    private Lot lot;
     private Integer capacity;
     private Integer occupied;
     private Instant lastUpdate;
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
     public Integer getCapacity() {
         return capacity;
@@ -39,5 +40,13 @@ public class LotStatus {
 
     public void setLastUpdate(Instant lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public Lot getLot() {
+        return lot;
+    }
+
+    public void setLot(Lot lot) {
+        this.lot = lot;
     }
 }

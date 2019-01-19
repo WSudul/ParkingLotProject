@@ -1,15 +1,29 @@
 package lot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Lot {
 
     @Id
+    private Long id;
+    @Column(unique = true)
     private String name;
     private String location;
     private Integer capacity;
+    @OneToMany(mappedBy = "lot", fetch = FetchType.LAZY)
+    private List<LotEntry> lotEntries;
+    @OneToOne(mappedBy = "lotstatus", fetch = FetchType.LAZY)
+    private LotStatus lotStatus;
+
+    public LotStatus getLotStatus() {
+        return lotStatus;
+    }
+
+    public void setLotStatus(LotStatus lotStatus) {
+        this.lotStatus = lotStatus;
+    }
 
 
     public String getName() {
@@ -34,5 +48,21 @@ public class Lot {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<LotEntry> getLotEntries() {
+        return lotEntries;
+    }
+
+    public void setLotEntries(List<LotEntry> lotEntries) {
+        this.lotEntries = lotEntries;
     }
 }
