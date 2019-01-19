@@ -4,7 +4,6 @@ import lot.model.Plate;
 import lot.repository.PlateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import plate.PlateValidation;
 
 import java.util.Optional;
 
@@ -18,8 +17,8 @@ public class PlateService {
         this.plateRepository = plateRepository;
     }
 
-    public Optional<Plate> findMatchingPlate(PlateValidation.Plate plate) {
-        return null;
+    public Optional<Plate> findMatchingPlate(String plate) {
+        return plateRepository.findOneByPlate(plate);
     }
 
 
