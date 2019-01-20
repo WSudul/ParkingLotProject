@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Payment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Integer value;
     @OneToOne(fetch = FetchType.LAZY)

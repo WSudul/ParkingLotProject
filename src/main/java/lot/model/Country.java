@@ -1,15 +1,15 @@
 package lot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 public class Country {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(unique = true)
     private String isoCountryCode;
     @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     private Set<Plate> plateSet;
@@ -19,6 +19,14 @@ public class Country {
     }
 
     public Country() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getIsoCountryCode() {

@@ -7,6 +7,7 @@ import java.util.List;
 public class Lot {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(unique = true)
     private String name;
@@ -14,7 +15,7 @@ public class Lot {
     private Integer capacity;
     @OneToMany(mappedBy = "lot", fetch = FetchType.LAZY)
     private List<LotEntry> lotEntries;
-    @OneToOne(mappedBy = "lot", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "lot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private LotStatus lotStatus;
 
     public String getName() {

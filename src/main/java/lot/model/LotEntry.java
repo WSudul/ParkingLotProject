@@ -7,6 +7,7 @@ import java.time.OffsetDateTime;
 public class LotEntry {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plate_id")
