@@ -1,11 +1,13 @@
 package lot.controller;
 
 import com.google.protobuf.Timestamp;
+import lot.model.Lot;
 import lot.model.Plate;
-import lot.service.EntryService;
-import lot.service.NotificationService;
-import lot.service.PaymentService;
-import lot.service.PlateService;
+import lot.model.PlateValidationRequest;
+import lot.model.PlateValidationResponse;
+
+import lot.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import plate.PlateValidation;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,72 +31,95 @@ public class EntranceController {
     private NotificationService notificationService;
     private PaymentService paymentService;
     private PlateService plateService;
+    private LotService lotService;
 
     private Clock clock = Clock.systemDefaultZone();
 
     @Autowired
     public EntranceController(EntryService entryService, NotificationService notificationService, PaymentService
-            paymentService, PlateService plateService) {
+            paymentService, PlateService plateService, LotService lotService) {
         this.entryService = entryService;
         this.notificationService = notificationService;
         this.paymentService = paymentService;
         this.plateService = plateService;
+        this.lotService = lotService;
     }
 
-    @RequestMapping(value = "bar", method = RequestMethod.GET)
-    public Plate foo() {
-        Plate plate = new Plate();
-        plate.setPlate("dupa");
-        plate.setId(1001L);
-        return plate;
-
-    }
 
     @RequestMapping(value = "entrance", method = RequestMethod.POST)
-    public ResponseEntity<PlateValidation.PlateValidationResponse> logEntry(@RequestBody PlateValidation
-            .PlateValidationRequest message) {
+    public PlateValidationResponse logEntry(@RequestBody
+                                                    PlateValidationRequest message) {
+
+        Optional<Lot> lot = lotService.getLot(message.getRequester());
+
+        PlateValidationResponse response = new PlateValidationResponse();
+        response.setPlate(message.getPlate());
+
+        if (!lot.isPresent()) {
+            response.setValidation(false);
+            response.setDetails(new ArrayList<>(List.of("Requester could not be matched to existing lot")));
+            return response;
+        }
+
         Optional<Plate> matchingPlate = plateService.findMatchingPlate(message.getPlate());
 
-        PlateValidation.PlateValidationResponse.Builder messageBuilder = PlateValidation.PlateValidationResponse
-                .newBuilder()
-                .setPlate(message.getPlate());
 
-        if (matchingPlate.isPresent()) {
-            boolean result = entryService.logEntry(matchingPlate.get());
-            messageBuilder = addCurrentTimestamp(messageBuilder);
 
-            return buildResponse(messageBuilder, result, List.of("Vehicle is already in the lot"));
+
+        boolean is_plate_found = matchingPlate.isPresent();
+        if (is_plate_found) {
+            boolean result = entryService.logEntry(matchingPlate.get(), lot.get());
+            response.setValidation(result);
+            if (!result)
+                response.setDetails(new ArrayList<>(List.of("Vehicle is already in the lot")));
+            else {
+                lotService.incrementOccupiedCount(lot.get());
+            }
+
+
 
 
         } else {
-            messageBuilder = addCurrentTimestamp(messageBuilder);
-            messageBuilder.addDetails("Plate not recognized by system");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageBuilder.build());
+            response.setValidation(false);
+            response.setDetails(new ArrayList<>(List.of("Plate not recognized by system")));
+
         }
+        return response;
     }
 
     @RequestMapping(value = "departure", method = RequestMethod.POST)
-    public ResponseEntity<PlateValidation.PlateValidationResponse> logDeparture(@RequestBody PlateValidation
-            .PlateValidationRequest message) {
+    public PlateValidationResponse logDeparture(@RequestBody PlateValidationRequest message) {
+
+        Optional<Lot> lot = lotService.getLot(message.getRequester());
+
+
+        PlateValidationResponse response = new PlateValidationResponse();
+        response.setPlate(message.getPlate());
+
+        if (!lot.isPresent()) {
+            response.setValidation(false);
+            response.setDetails(new ArrayList<>(List.of("Requester could not be matched to existing lot")));
+            return response;
+        }
 
         Optional<Plate> matchingPlate = plateService.findMatchingPlate(message.getPlate());
 
-        PlateValidation.PlateValidationResponse.Builder messageBuilder = PlateValidation.PlateValidationResponse
-                .newBuilder()
-                .setPlate(message.getPlate());
-
-        if (matchingPlate.isPresent()) {
-
-            boolean result = entryService.logDeparture(matchingPlate.get());
-            messageBuilder = addCurrentTimestamp(messageBuilder);
-
-            return buildResponse(messageBuilder, result, List.of("Vehicle logged as not present in lot"));
+        boolean is_plate_found = matchingPlate.isPresent();
+        if (is_plate_found) {
+            boolean result = entryService.logDeparture(matchingPlate.get(), lot.get());
+            response.setValidation(result);
+            if (!result) {
+                response.setDetails(new ArrayList<>(List.of("Vehicle is not in the lot")));
+            } else {
+                lotService.decrementOccupiedLod(lot.get());
+            }
 
         } else {
-            messageBuilder = addCurrentTimestamp(messageBuilder);
-            messageBuilder.addDetails("Plate not recognized by system");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageBuilder.build());
+            response.setValidation(false);
+            response.setDetails(new ArrayList<>(List.of("Plate not recognized by system")));
+
         }
+        return response;
 
 
     }

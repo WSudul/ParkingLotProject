@@ -1,20 +1,26 @@
 package lot.model;
 
+import javax.persistence.*;
 import java.time.Instant;
 
+@Entity
 public class LotStatus {
 
-    private String location;
+    @Id
+    private Long id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lot_id")
+    private Lot lot;
     private Integer capacity;
     private Integer occupied;
     private Instant lastUpdate;
 
-    public String getLocation() {
-        return location;
+    public Long getId() {
+        return id;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Integer getCapacity() {
@@ -39,5 +45,13 @@ public class LotStatus {
 
     public void setLastUpdate(Instant lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public Lot getLot() {
+        return lot;
+    }
+
+    public void setLot(Lot lot) {
+        this.lot = lot;
     }
 }

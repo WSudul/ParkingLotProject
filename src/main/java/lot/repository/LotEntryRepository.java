@@ -1,6 +1,7 @@
 package lot.repository;
 
 
+import lot.model.Lot;
 import lot.model.LotEntry;
 import lot.model.Plate;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,10 +15,10 @@ public interface LotEntryRepository extends JpaRepository<LotEntry, Long> {
 
     Optional<LotEntry> findOneByPlateAndDateToIsNull(Plate plate);
 
-
+    Optional<LotEntry> findOneByPlateAndLotAndDateToIsNull(Plate plate, Lot lot);
     Set<LotEntry> findAllByDateToIsNull();
 
     Set<LotEntry> findAllByPlate_Plate(String plate);
 
-
+    Set<LotEntry> findAllByLotAndDateToIsNull(Lot lot);
 }

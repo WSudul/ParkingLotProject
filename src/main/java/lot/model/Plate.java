@@ -16,7 +16,7 @@ public class Plate {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToMany(mappedBy = "plate")
+    @OneToMany(mappedBy = "plate", fetch = FetchType.LAZY)
     private List<LotEntry> lotEntries;
     private Boolean isActive;
 

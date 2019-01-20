@@ -25,7 +25,6 @@ public class StatusController {
         lotStatus.setOccupied(entryService.currentLotStatus().size());
         lotStatus.setCapacity(description.getCapacity());
         lotStatus.setLastUpdate(Instant.now());
-        lotStatus.setLocation(description.getLocation());
         return lotStatus;
     }
 

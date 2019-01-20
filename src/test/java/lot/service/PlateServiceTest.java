@@ -29,11 +29,10 @@ public class PlateServiceTest {
     @Test
     public void findMatchingPlate_shouldReturnExistingPlate() throws Exception {
         String plateText = "ABC-12345";
-        PlateValidation.Plate plate = PlateValidation.Plate.newBuilder().setPlate(plateText).build();
         Optional<Plate> existingPlate = Optional.of(new Plate());
 
         when(plateRepositoryMock.findOneByPlate(plateText)).thenReturn(existingPlate);
-        assertEquals(existingPlate, plateService.findMatchingPlate(plate));
+        assertEquals(existingPlate, plateService.findMatchingPlate(plateText));
 
         verify(plateRepositoryMock, times(1)).findOneByPlate(plateText);
     }
@@ -43,8 +42,7 @@ public class PlateServiceTest {
         String plateText = "ABC-MISING";
         PlateValidation.Plate plate = PlateValidation.Plate.newBuilder().setPlate(plateText).build();
 
-        when(plateRepositoryMock.findOneByPlate(plateText)).thenReturn(Optional.ofNullable(null));
-        assertEquals(null, plateService.findMatchingPlate(plate));
+        assertEquals(null, plateService.findMatchingPlate(plateText));
 
         verify(plateRepositoryMock, times(1)).findOneByPlate(plateText);
     }

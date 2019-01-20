@@ -28,9 +28,10 @@ public class EntryService {
 
     /**
      * @param plate licence plate
+     * @param lot parking lot
      * @return false if vehicle is already in lot otherwise true
      */
-    public boolean logEntry(Plate plate) {
+    public boolean logEntry(Plate plate, Lot lot) {
         Optional<LotEntry> entry = lotEntryRepository.findOneByPlateAndDateToIsNull(plate);
 
         if (entry.isPresent()) {
@@ -41,6 +42,7 @@ public class EntryService {
             lotEntry.setDateFrom(OffsetDateTime.now());
             lotEntry.setPayment(null);
             lotEntry.setPlate(plate);
+            lotEntry.setLot(lot);
 
             lotEntryRepository.save(lotEntry);
 
@@ -51,10 +53,11 @@ public class EntryService {
 
     /**
      * @param plate licence plate
+     * @param lot parking lot
      * @return false if vehicle was not in lot otherwise true
      */
-    public boolean logDeparture(Plate plate) {
-        Optional<LotEntry> entry = lotEntryRepository.findOneByPlateAndDateToIsNull(plate);
+    public boolean logDeparture(Plate plate, Lot lot) {
+        Optional<LotEntry> entry = lotEntryRepository.findOneByPlateAndLotAndDateToIsNull(plate, lot);
 
         if (entry.isPresent()) {
 
@@ -81,8 +84,8 @@ public class EntryService {
         return lotEntryRepository.findAllByDateToIsNull();
     }
 
-    public Set<Plate> GetPlatesInLot() {
-        return lotEntryRepository.findAllByDateToIsNull().stream().map(LotEntry::getPlate).collect(
+    public Set<Plate> GetPlatesInLot(Lot lot) {
+        return lotEntryRepository.findAllByLotAndDateToIsNull(lot).stream().map(LotEntry::getPlate).collect(
                 Collectors.toSet());
     }
 
