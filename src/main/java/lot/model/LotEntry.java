@@ -15,6 +15,9 @@ public class LotEntry {
     private OffsetDateTime dateTo;
     @OneToOne(mappedBy = "lotEntry", fetch = FetchType.LAZY)
     private Payment payment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lot_id")
+    private Lot lot;
 
     public Long getId() {
         return id;
@@ -57,4 +60,11 @@ public class LotEntry {
     }
 
 
+    public Lot getLot() {
+        return lot;
+    }
+
+    public void setLot(Lot lot) {
+        this.lot = lot;
+    }
 }
