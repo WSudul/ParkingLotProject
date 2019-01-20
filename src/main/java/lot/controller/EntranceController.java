@@ -5,7 +5,9 @@ import lot.model.Lot;
 import lot.model.Plate;
 import lot.model.PlateValidationRequest;
 import lot.model.PlateValidationResponse;
+
 import lot.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +49,7 @@ public class EntranceController {
     @RequestMapping(value = "entrance", method = RequestMethod.POST)
     public PlateValidationResponse logEntry(@RequestBody
                                                     PlateValidationRequest message) {
+
         Optional<Lot> lot = lotService.getLot(message.getRequester());
 
         PlateValidationResponse response = new PlateValidationResponse();
@@ -75,6 +78,7 @@ public class EntranceController {
 
 
 
+
         } else {
             response.setValidation(false);
             response.setDetails(new ArrayList<>(List.of("Plate not recognized by system")));
@@ -85,7 +89,9 @@ public class EntranceController {
 
     @RequestMapping(value = "departure", method = RequestMethod.POST)
     public PlateValidationResponse logDeparture(@RequestBody PlateValidationRequest message) {
+
         Optional<Lot> lot = lotService.getLot(message.getRequester());
+
 
         PlateValidationResponse response = new PlateValidationResponse();
         response.setPlate(message.getPlate());
@@ -107,6 +113,7 @@ public class EntranceController {
             } else {
                 lotService.decrementOccupiedLod(lot.get());
             }
+
         } else {
             response.setValidation(false);
             response.setDetails(new ArrayList<>(List.of("Plate not recognized by system")));
