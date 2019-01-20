@@ -20,6 +20,15 @@ public class Plate {
     private List<LotEntry> lotEntries;
     private Boolean isActive;
 
+    public Plate(String plate, Country country, Boolean isActive) {
+        this.plate = plate;
+        this.country = country;
+        this.isActive = isActive;
+    }
+
+    public Plate() {
+    }
+
     public Long getId() {
         return id;
     }
