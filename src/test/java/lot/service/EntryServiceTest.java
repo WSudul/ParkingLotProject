@@ -37,6 +37,7 @@ public class EntryServiceTest {
 
     private Plate plate;
     private Set<LotEntry> returned_entries;
+    private Lot lot = new Lot();
     private LotEntry lotEntry_1;
     private LotEntry lotEntry_2;
 
@@ -55,23 +56,23 @@ public class EntryServiceTest {
     @Test
     public void logEntry_ReturnTrue_WhenNewVehicleEnters() throws Exception {
 
-        when(lotEntryRepositoryMock.findOneByPlateAndDateToIsNull(plate)).thenReturn(Optional.empty());
-        assertTrue(entryService.logEntry(plate));
+        when(lotEntryRepositoryMock.findOneByPlateAndLotAndDateToIsNull(plate, lot)).thenReturn(Optional.empty());
+        assertTrue(entryService.logEntry(plate, lot));
     }
 
     @Test
     public void logEntry_ReturnFalse_WhenVehicleIsInLot() throws Exception {
-        assertFalse(entryService.logEntry(plate));
+        assertFalse(entryService.logEntry(plate, lot));
     }
 
     @Test
     public void logDeparture_ReturnTrue_WhenVehicleLeaves() throws Exception {
-        assertTrue(entryService.logDeparture(plate));
+        assertTrue(entryService.logDeparture(plate, lot));
     }
 
     @Test
     public void logDeparture_ReturnFalse_WhenVehicleWasNotInLot() throws Exception {
-        assertFalse(entryService.logDeparture(plate));
+        assertFalse(entryService.logDeparture(plate, lot));
     }
 
 
@@ -102,9 +103,9 @@ public class EntryServiceTest {
         plate2.setPlate("456");
         lotEntry2.setPlate(plate2);
         Set<LotEntry> lotEntries = Set.of(lotEntry1, lotEntry2);
-        when(lotEntryRepositoryMock.findAllByDateToIsNull()).thenReturn(lotEntries);
+        when(lotEntryRepositoryMock.findAllByLotAndDateToIsNull(lot)).thenReturn(lotEntries);
 
-        Set<Plate> entries = entryService.GetPlatesInLot();
+        Set<Plate> entries = entryService.GetPlatesInLot(lot);
         assertEquals(Set.of(plate1, plate2), entries);
     }
 

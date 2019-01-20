@@ -14,17 +14,8 @@ public class Lot {
     private Integer capacity;
     @OneToMany(mappedBy = "lot", fetch = FetchType.LAZY)
     private List<LotEntry> lotEntries;
-    @OneToOne(mappedBy = "lotstatus", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "lot", fetch = FetchType.LAZY)
     private LotStatus lotStatus;
-
-    public LotStatus getLotStatus() {
-        return lotStatus;
-    }
-
-    public void setLotStatus(LotStatus lotStatus) {
-        this.lotStatus = lotStatus;
-    }
-
 
     public String getName() {
         return name;
@@ -65,4 +56,14 @@ public class Lot {
     public void setLotEntries(List<LotEntry> lotEntries) {
         this.lotEntries = lotEntries;
     }
+
+
+    public LotStatus getLotStatus() {
+        return lotStatus;
+    }
+
+    public void setLotStatus(LotStatus lotStatus) {
+        this.lotStatus = lotStatus;
+    }
+
 }

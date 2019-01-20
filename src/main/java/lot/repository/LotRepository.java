@@ -8,11 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface LotRepository extends JpaRepository<Lot, String> {
+public interface LotRepository extends JpaRepository<Lot, Long> {
 
     Lot findFirstByLocationNotNull();
 
-    Optional<Lot> findFirstByName(String name);
-
-
+    Optional<Lot> findOneByName(String name);
 }

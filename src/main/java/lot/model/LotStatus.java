@@ -1,12 +1,9 @@
 package lot.model;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.Instant;
 
+@Entity
 public class LotStatus {
 
     @Id
@@ -17,6 +14,14 @@ public class LotStatus {
     private Integer capacity;
     private Integer occupied;
     private Instant lastUpdate;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Integer getCapacity() {
         return capacity;
