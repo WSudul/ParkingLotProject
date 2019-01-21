@@ -5,9 +5,9 @@ import lot.model.Lot;
 import lot.model.Plate;
 import lot.model.PlateValidationRequest;
 import lot.model.PlateValidationResponse;
-
 import lot.service.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +34,7 @@ public class EntranceController {
     private LotService lotService;
 
     private Clock clock = Clock.systemDefaultZone();
+    Logger logger = LoggerFactory.getLogger(EntranceController.class);
 
     @Autowired
     public EntranceController(EntryService entryService, NotificationService notificationService, PaymentService
@@ -49,6 +50,8 @@ public class EntranceController {
     @RequestMapping(value = "entrance", method = RequestMethod.POST)
     public PlateValidationResponse logEntry(@RequestBody
                                                     PlateValidationRequest message) {
+
+        logger.info("Received entrance request from " + message.getRequester());
 
         Optional<Lot> lot = lotService.getLot(message.getRequester());
 
@@ -90,6 +93,7 @@ public class EntranceController {
     @RequestMapping(value = "departure", method = RequestMethod.POST)
     public PlateValidationResponse logDeparture(@RequestBody PlateValidationRequest message) {
 
+        logger.info("Received departure request from " + message.getRequester());
         Optional<Lot> lot = lotService.getLot(message.getRequester());
 
 

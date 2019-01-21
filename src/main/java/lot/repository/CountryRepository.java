@@ -1,10 +1,9 @@
 package lot.repository;
 
-import lot.model.Credit;
+import lot.model.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CreditRepository extends JpaRepository<Credit, Long> {
-
+public interface CountryRepository extends JpaRepository<Country, Long> {
 }

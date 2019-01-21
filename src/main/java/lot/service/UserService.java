@@ -56,7 +56,6 @@ public class UserService {
         user.getPlates().add(plate);
 
         Credit credit = new Credit();
-        credit.setUser(user);
         credit.setValue(0L);
         user.setCredit(credit);
 

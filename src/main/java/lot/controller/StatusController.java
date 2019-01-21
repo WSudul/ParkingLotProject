@@ -4,12 +4,14 @@ import lot.model.Lot;
 import lot.model.LotEntry;
 import lot.model.LotStatus;
 import lot.service.EntryService;
+import lot.service.LotService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -17,15 +19,23 @@ import java.util.Set;
 public class StatusController {
 
     private EntryService entryService;
+    private LotService lotService;
+
+    @Autowired
+    public StatusController(EntryService entryService, LotService lotService) {
+        this.entryService = entryService;
+        this.lotService = lotService;
+    }
 
     @RequestMapping(value = "/capacity", method = RequestMethod.GET)
-    LotStatus checkLotStatus() {
-        LotStatus lotStatus = new LotStatus();
-        Lot description = entryService.lotDescription();
-        lotStatus.setOccupied(entryService.currentLotStatus().size());
-        lotStatus.setCapacity(description.getCapacity());
-        lotStatus.setLastUpdate(Instant.now());
-        return lotStatus;
+    LotStatus checkLotStatus(@RequestParam String name) {
+        Optional<Lot> lot = lotService.getLot(name);
+        if (lot.isPresent())
+            return lot.get().getLotStatus();
+        else {
+            return null;
+        }
+
     }
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
