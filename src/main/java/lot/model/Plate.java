@@ -1,6 +1,9 @@
 package lot.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,17 +11,31 @@ import java.util.List;
 public class Plate {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String plate;
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
-    @ManyToOne
+    @JsonManagedReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
+    @JsonBackReference
     @OneToMany(mappedBy = "plate", fetch = FetchType.LAZY)
     private List<LotEntry> lotEntries;
     private Boolean isActive;
+
+    public Plate(String plate, Country country, Boolean isActive) {
+        this.plate = plate;
+        this.country = country;
+        this.isActive = isActive;
+    }
+
+    public Plate() {
+    }
 
     public Long getId() {
         return id;

@@ -1,9 +1,8 @@
 package lot.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -12,14 +11,17 @@ import java.util.Set;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotEmpty
     @NotNull
     private String login;
     private String nickname;
-    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<Plate> plates;
-    @OneToOne(mappedBy = "user")
+    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Credit credit;
 
     public Long getId() {

@@ -38,7 +38,6 @@ public class LotService {
         status.setLastUpdate(Instant.now());
         status.setCapacity(capacity);
         status.setOccupied(occupied);
-        status.setLot(newLot);
 
         newLot.setLotStatus(status);
 

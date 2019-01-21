@@ -1,17 +1,17 @@
 package lot.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Credit {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long value; //todo verify if BigDecimal is better
-    @OneToOne
-    private User user;
 
 
     public Long getId() {
@@ -28,13 +28,5 @@ public class Credit {
 
     public void setValue(Long value) {
         this.value = value;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
