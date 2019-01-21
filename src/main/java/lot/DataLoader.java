@@ -36,15 +36,24 @@ public class DataLoader implements ApplicationRunner {
 
     public void run(ApplicationArguments args) {
         Lot lot_1 = new Lot();
-        lot_1.setName("Krakow_Pawia_15");
-        lot_1.setLocation("Krakow");
+        lot_1.setName("Krak-1");
+        lot_1.setLocation("Krakow Pawia 15");
         lot_1.setCapacity(50);
         LotStatus lot_status_1 = new LotStatus();
         lot_status_1.setOccupied(0);
-        lot_status_1.setLot(lot_1);
         lot_status_1.setLastUpdate(Instant.now());
         lot_1.setLotStatus(lot_status_1);
         lotRepository.save(lot_1);
+
+        Lot lot_2 = new Lot();
+        lot_2.setName("Krak-2");
+        lot_2.setLocation("Krakow Warszawska 1");
+        lot_2.setCapacity(100);
+        LotStatus lot_status_2 = new LotStatus();
+        lot_status_2.setOccupied(30);
+        lot_status_2.setLastUpdate(Instant.now());
+        lot_2.setLotStatus(lot_status_2);
+        lotRepository.save(lot_2);
 
         Country country_1 = new Country("POL");
         Country country_2 = new Country("GER");
@@ -53,16 +62,21 @@ public class DataLoader implements ApplicationRunner {
         countryRepository.save(country_2);
 
         List<Plate> plates = new ArrayList<>(List.of(
-                new Plate("KRA-12345", country_1, true),
-                new Plate("KRA-123451", country_1, true),
-                new Plate("KRA-123452", country_1, true),
-                new Plate("KRA-123453", country_1, true),
-                new Plate("KRA-123454", country_1, true),
-                new Plate("KRA-123455", country_1, true),
-                new Plate("KRA-123456", country_1, true)));
+                new Plate("KR12345", country_1, true),
+                new Plate("KR45678", country_1, true),
+                new Plate("KR9ABC", country_1, true),
+                new Plate("KR4CG7", country_1, true),
+                new Plate("KR48CY", country_1, true),
+                new Plate("KR4CG9", country_1, true),
+                new Plate("KR447KAL", country_1, true)));
 
+        System.out.println("--------------------\n\n\n------------------------");
         for (Plate plate : plates)
             plateRepository.save(plate);
 
+        System.out.println(plateRepository.findAll());
+        System.out.println(lotRepository.findAll());
     }
+
+
 }

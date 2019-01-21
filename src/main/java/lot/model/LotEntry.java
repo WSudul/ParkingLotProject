@@ -1,5 +1,8 @@
 package lot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
@@ -9,13 +12,16 @@ public class LotEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plate_id")
     private Plate plate;
     private OffsetDateTime dateFrom;
     private OffsetDateTime dateTo;
+    @JsonBackReference
     @OneToOne(mappedBy = "lotEntry", fetch = FetchType.LAZY)
     private Payment payment;
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lot_id")
     private Lot lot;

@@ -1,5 +1,7 @@
 package lot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,9 +15,12 @@ public class Lot {
     private String name;
     private String location;
     private Integer capacity;
-    @OneToMany(mappedBy = "lot", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lot_id")
     private List<LotEntry> lotEntries;
-    @OneToOne(mappedBy = "lot", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "lot_id")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private LotStatus lotStatus;
 
     public String getName() {

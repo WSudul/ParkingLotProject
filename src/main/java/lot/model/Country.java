@@ -1,5 +1,7 @@
 package lot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,6 +13,7 @@ public class Country {
     private Long id;
     @Column(unique = true)
     private String isoCountryCode;
+    @JsonBackReference
     @OneToMany(mappedBy = "country", fetch = FetchType.LAZY)
     private Set<Plate> plateSet;
 

@@ -1,5 +1,7 @@
 package lot.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -15,9 +17,11 @@ public class User {
     @NotNull
     private String login;
     private String nickname;
+    @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private Set<Plate> plates;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Credit credit;
 
     public Long getId() {
