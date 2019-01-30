@@ -1,23 +1,20 @@
 package lot.model;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.List;
 
 public class UserRegistrationData {
 
     @NotBlank
     private String email;
     private String nickname;
-    @Size(min = 1)
-    private String plateText;
-    @NotBlank
-    private String password;
+    private List<String> plates;
 
-    public UserRegistrationData(@NotBlank String email, String nickname, String plateText, @NotBlank String password) {
+    public UserRegistrationData(@NotBlank String email, String nickname, List<String> plates, @NotBlank String
+            password) {
         this.email = email;
         this.nickname = nickname;
-        this.plateText = plateText;
-        this.password = password;
+        this.plates = plates;
     }
 
     public UserRegistrationData() {
@@ -40,19 +37,20 @@ public class UserRegistrationData {
         this.nickname = nickname;
     }
 
-    public String getPlateText() {
-        return plateText;
+    public List<String> getPlates() {
+        return plates;
     }
 
-    public void setPlateText(String plateText) {
-        this.plateText = plateText;
+    public void setPlates(List<String> plates) {
+        this.plates = plates;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String toString() {
+        return "UserRegistrationData{" +
+                "email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", plates=" + plates +
+                '}';
     }
 }

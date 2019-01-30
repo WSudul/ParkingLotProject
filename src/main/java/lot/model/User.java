@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -19,7 +20,7 @@ public class User {
     private String nickname;
     @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private Set<Plate> plates;
+    private List<Plate> plates = new ArrayList<>();
     @JoinColumn(name = "user_id")
     @OneToOne(cascade = CascadeType.PERSIST)
     private Credit credit;
@@ -48,11 +49,11 @@ public class User {
         this.nickname = nickname;
     }
 
-    public Set<Plate> getPlates() {
+    public List<Plate> getPlates() {
         return plates;
     }
 
-    public void setPlates(Set<Plate> plates) {
+    public void setPlates(List<Plate> plates) {
         this.plates = plates;
     }
 
@@ -62,5 +63,17 @@ public class User {
 
     public void setCredit(Credit credit) {
         this.credit = credit;
+    }
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", plates=" + plates +
+                ", credit=" + credit +
+                '}';
     }
 }

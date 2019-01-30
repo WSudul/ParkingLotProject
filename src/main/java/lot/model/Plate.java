@@ -16,7 +16,7 @@ public class Plate {
     @Column(unique = true)
     private String plate;
     @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
     @JsonManagedReference
@@ -84,5 +84,13 @@ public class Plate {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Plate{" +
+                "plate='" + plate + '\'' +
+                ", isActive=" + isActive +
+                '}';
     }
 }
