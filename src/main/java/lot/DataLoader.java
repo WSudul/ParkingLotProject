@@ -1,9 +1,6 @@
 package lot;
 
-import lot.model.Country;
-import lot.model.Lot;
-import lot.model.LotStatus;
-import lot.model.Plate;
+import lot.model.*;
 import lot.repository.CountryRepository;
 import lot.repository.LotRepository;
 import lot.repository.PlateRepository;
@@ -72,7 +69,35 @@ public class DataLoader implements ApplicationRunner {
 
         System.out.println("--------------------\n\n\n------------------------");
         for (Plate plate : plates)
-            plateRepository.save(plate);
+            plate = plateRepository.save(plate);
+
+        User user = new User();
+        Plate userPlate = new Plate();
+        userPlate.setPlate("Custom-123");
+        userPlate.setActive(true);
+        userPlate.setUser(user);
+        user.getPlates().add(userPlate);
+        user.setNickname("user1");
+        user.setLogin("log@log.com");
+
+        userRepository.saveAndFlush(user);
+
+        User user2 = new User();
+        Plate plate_1 = new Plate("KR-AL12", country_1, true);
+        Plate plate_2 = new Plate("ZU-5678", country_1, false);
+        plate_1.setUser(user2);
+        plate_2.setUser(user2);
+
+        user2.getPlates().add(plate_1);
+        user2.getPlates().add(plate_2);
+
+        plates.get(0).setUser(user2);
+        plates.get(1).setUser(user2);
+
+        user2.setNickname("user2");
+        user2.setLogin("log@log.com");
+        userRepository.saveAndFlush(user2);
+
 
         System.out.println(plateRepository.findAll());
         System.out.println(lotRepository.findAll());
