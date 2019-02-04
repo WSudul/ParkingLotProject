@@ -80,8 +80,16 @@ public class EntryService {
         return lotEntryRepository.findOneByPlateAndDateToIsNull(plate).isPresent();
     }
 
-    public Set<LotEntry> currentLotStatus() {
+    public Set<LotEntry> currentActiveEntries() {
         return lotEntryRepository.findAllByDateToIsNull();
+    }
+
+    public Set<LotEntry> GetEntriesInLot(String name, boolean activeOnly) {
+        if (activeOnly)
+            return lotEntryRepository.findAllByDateToIsNullAndLotName(name);
+        else
+            return lotEntryRepository.findAllByLotName(name);
+
     }
 
     public Set<Plate> GetPlatesInLot(Lot lot) {

@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping(value = "/status/")
+@RequestMapping(value = "/status/rest/")
 public class StatusController {
 
     private EntryService entryService;
@@ -40,7 +40,7 @@ public class StatusController {
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     Set<LotEntry> currentLotStatus() {
-        return entryService.currentLotStatus();
+        return entryService.currentActiveEntries();
     }
     
     @RequestMapping(value = "/entries", method = RequestMethod.GET)
