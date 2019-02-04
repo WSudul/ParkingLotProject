@@ -8,7 +8,7 @@ import lot.repository.LotStatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +35,7 @@ public class LotService {
         newLot.setCapacity(capacity);
         LotStatus status = new LotStatus();
 
-        status.setLastUpdate(Instant.now());
+        status.setLastUpdate(OffsetDateTime.now());
         status.setCapacity(capacity);
         status.setOccupied(occupied);
 

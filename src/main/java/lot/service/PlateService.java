@@ -17,8 +17,33 @@ public class PlateService {
         this.plateRepository = plateRepository;
     }
 
-    public Optional<Plate> findMatchingPlate(String plate) {
-        return plateRepository.findOneByPlate(plate);
+    public Optional<Plate> findMatchingPlate(String plateText) {
+        return plateRepository.findOneByPlate(plateText);
+    }
+
+    public boolean addNewPlate(String plateText) {
+        Optional<Plate> plate = plateRepository.findOneByPlate(plateText);
+        if (plate.isPresent()) {
+            return false;
+        } else {
+            Plate newPlate = new Plate();
+            newPlate.setPlate(plateText);
+            newPlate.setActive(true);
+            plateRepository.saveAndFlush(plate.get());
+            return true;
+        }
+    }
+
+    public boolean deactivatePlate(String plateText) {
+        Optional<Plate> plate = plateRepository.findOneByPlate(plateText);
+        if (plate.isPresent()) {
+            plate.get().setActive(false);
+            plateRepository.saveAndFlush(plate.get());
+            return true;
+        } else
+            return false;
+
+
     }
 
 

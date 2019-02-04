@@ -6,9 +6,7 @@ import lot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,14 +27,42 @@ public class UserService {
             //log error
             return null;
         }
+        User user = buildNewUser(userRegistrationData);
+        user.setPlates(new ArrayList<>());
 
-        String plate = userRegistrationData.getPlateText();
-        if (null != plate && plateRepository.findOneByPlate(plate).isPresent()) {
+
+        List<String> plates = userRegistrationData.getPlates();
+
+        //prune the list
+        plates.removeAll(Arrays.asList("", null));
+        for (String plateText : plates) {
+
+            Optional<Plate> existingPlate = plateRepository.findOneByPlate(plateText);
+            if (existingPlate.isPresent()) {
+                if (null != existingPlate.get().getUser()) {
+                    //plate already registered to user!
+                    continue;
+                } else {
+                    System.out.println("adding plate to user" + existingPlate.get().getPlate());
+                    user.getPlates().add(existingPlate.get());
+                    existingPlate.get().setUser(user);
+                }
+
+            } else {
+                Plate plate = new Plate();
+                plate.setPlate(plateText);
+                plate.setActive(true);
+                plate.setUser(user);
+                user.getPlates().add(plate);
+                System.out.println("adding plate " + plateText);
+            }
+
+
             //log error - existing plate
         }
 
-        User user = buildNewUser(userRegistrationData);
-        return userRepository.save(user);
+        System.out.println("save user " + user);
+        return userRepository.saveAndFlush(user);
 
 
     }
@@ -47,13 +73,7 @@ public class UserService {
         user.setNickname(userRegistrationData.getNickname());
         //todo password handling
 
-        user.setPlates(new HashSet<>());
 
-        Plate plate = new Plate();
-        plate.setPlate(userRegistrationData.getPlateText());
-        plate.setActive(true);
-        plate.setUser(user);
-        user.getPlates().add(plate);
 
         Credit credit = new Credit();
         credit.setValue(0L);
@@ -66,6 +86,14 @@ public class UserService {
 
     public Optional<User> findUser(String name) {
         return userRepository.findOneByLogin(name);
+    }
+
+    public Optional<User> findUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
     public boolean updateUser(User user, UpdateUserData updateUserData) {
