@@ -16,7 +16,7 @@ public class Plate {
     @Column(unique = true)
     private String plate;
     @JsonManagedReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
     @JsonManagedReference
@@ -26,12 +26,12 @@ public class Plate {
     @JsonBackReference
     @OneToMany(mappedBy = "plate", fetch = FetchType.LAZY)
     private List<LotEntry> lotEntries;
-    private Boolean isActive;
+    private Boolean active;
 
-    public Plate(String plate, Country country, Boolean isActive) {
+    public Plate(String plate, Country country, Boolean active) {
         this.plate = plate;
         this.country = country;
-        this.isActive = isActive;
+        this.active = active;
     }
 
     public Plate() {
@@ -78,11 +78,19 @@ public class Plate {
         this.lotEntries = lotEntries;
     }
 
-    public Boolean getActive() {
-        return isActive;
+    public Boolean isActive() {
+        return active;
     }
 
     public void setActive(Boolean active) {
-        isActive = active;
+        this.active = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Plate{" +
+                "plate='" + plate + '\'' +
+                ", active=" + active +
+                '}';
     }
 }

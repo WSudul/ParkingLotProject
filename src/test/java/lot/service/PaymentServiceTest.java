@@ -17,9 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -56,7 +55,7 @@ public class PaymentServiceTest {
         plate.setPlate("123-45A");
 
         User user = new User();
-        user.setPlates(new HashSet<>(Arrays.asList(plate)));
+        user.setPlates(new ArrayList<>(Arrays.asList(plate)));
 
         plate.setUser(user);
 
@@ -65,7 +64,6 @@ public class PaymentServiceTest {
         lotEntry.setPlate(plate);
         lotEntry.setPayment(null);
 
-        credit.setUser(user);
         credit.setValue(0L);
 
     }
@@ -77,7 +75,8 @@ public class PaymentServiceTest {
         ArgumentCaptor<Payment> argumentCaptor = ArgumentCaptor.forClass(Payment.class);
 
         when(paymentRepositoryMock.save(Mockito.any(Payment.class))).thenReturn(persistedPayment);
-        when(creditRepositoryMock.findOneByUser(lotEntry.getPlate().getUser())).thenReturn(Optional.ofNullable(credit));
+        //when(creditRepositoryMock.findOneByUser(lotEntry.getPlate().getUser())).thenReturn(Optional.ofNullable
+        // (credit));
 
         assertTrue(paymentService.processPayment(lotEntry));
 
@@ -92,7 +91,7 @@ public class PaymentServiceTest {
     public void processPayment_ReturnsFalse_WhenUserHasNoFunds() throws Exception {
         credit.setValue(LOW_CREDIT);
 
-        when(creditRepositoryMock.findOneByUser(lotEntry.getPlate().getUser())).thenReturn(Optional.ofNullable(credit));
+        //when(creditRepositoryMock.findOneByUser(lotEntry.getPlate().getUser())).thenReturn(Optional.ofNullable(credit));
 
         assertFalse(paymentService.processPayment(lotEntry));
 

@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 
 @Entity
 public class LotStatus {
@@ -14,7 +14,7 @@ public class LotStatus {
     private Long id;
     private Integer capacity;
     private Integer occupied;
-    private Instant lastUpdate;
+    private OffsetDateTime lastUpdate;
 
     public Long getId() {
         return id;
@@ -40,11 +40,11 @@ public class LotStatus {
         this.occupied = occupied;
     }
 
-    public Instant getLastUpdate() {
+    public OffsetDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Instant lastUpdate) {
+    public void setLastUpdate(OffsetDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 }
