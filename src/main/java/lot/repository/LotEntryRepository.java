@@ -18,7 +18,11 @@ public interface LotEntryRepository extends JpaRepository<LotEntry, Long> {
     Optional<LotEntry> findOneByPlateAndLotAndDateToIsNull(Plate plate, Lot lot);
     Set<LotEntry> findAllByDateToIsNull();
 
+    Set<LotEntry> findAllByDateToIsNullAndLotName(String name);
+
     Set<LotEntry> findAllByPlate_Plate(String plate);
 
     Set<LotEntry> findAllByLotAndDateToIsNull(Lot lot);
+
+    Set<LotEntry> findAllByLotName(String name);
 }

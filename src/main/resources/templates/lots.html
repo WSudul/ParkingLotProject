@@ -1,17 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'header')}">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Users</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-          integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/shards.min.css">
+    <title>Lots</title>
+
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 400px; /* The height is 400 pixels */
+            width: 100%; /* The width is the width of the web page */
+        }
+    </style>
+
 </head>
 <body>
+<div id="map"></div>
+<script>
+    // Initialize and add the map
+    function initMap() {
+
+        var uluru = {lat: 50.067425, lng: 19.945233};
+        var map = new google.maps.Map(
+            document.getElementById('map'), {zoom: 18, center: uluru});
+
+        var transitLayer = new google.maps.TransitLayer();
+        transitLayer.setMap(map);
+
+        var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(map);
+
+
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({position: uluru, map: map});
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=
+AIzaSyAdvsToFrTf3VNwmyxfcFM4PsxmGblcbbA&callback=initMap">
+</script>
+
+
 <div class="container my-5">
     <div class="row">
         <div class="col-md-6">
@@ -36,6 +64,10 @@
 
             </div>
             <div th:if="${foundLot !=null and searchedName !=null}">
+                <p th:text=" 'Details for the' + ${searchedName}">
+                </p>
+
+
                 <table class="table table-striped table-responsive-md">
                     <thead>
                     <tr>
@@ -65,6 +97,7 @@
                 </table>
             </div>
             <div th:if="${searchedName==null}">
+                <p>Presenting all existing lots</p>
                 <table class="table table-striped table-responsive-md">
                     <thead>
                     <tr>
@@ -96,6 +129,13 @@
                     </tbody>
                 </table>
             </div>
+
+
+            <p class="my-5">
+                <a th:href="@{/lot/newlot}" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i>
+                </a>
+                Add new lot
+            </p>
         </div>
     </div>
 </div>
