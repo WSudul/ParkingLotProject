@@ -2,6 +2,7 @@ package lot.service;
 
 
 import lot.model.Lot;
+import lot.model.LotData;
 import lot.model.LotStatus;
 import lot.repository.LotRepository;
 import lot.repository.LotStatusRepository;
@@ -24,9 +25,14 @@ public class LotService {
         this.lotStatusRepository = lotStatusRepository;
     }
 
-    boolean addNewLot(String name, String location, Integer capacity, Integer occupied) {
-        if (lotRepository.findOneByName(name).isPresent())
+    public boolean addNewLot(LotData lotData) {
+        if (lotRepository.findOneByName(lotData.getName()).isPresent())
             return false;
+        String name = lotData.getName();
+        String location = lotData.getLocation();
+        Integer capacity = lotData.getCapacity();
+        Integer occupied = lotData.getOccupied();
+
 
 
         Lot newLot = new Lot();
