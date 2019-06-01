@@ -32,21 +32,23 @@ public class DataLoader implements ApplicationRunner {
 
     public void run(ApplicationArguments args) {
         Lot lot_1 = new Lot();
-        lot_1.setName("Krak-1");
+        lot_1.setName("Krk-1");
         lot_1.setLocation("Krakow Pawia 15");
         lot_1.setCapacity(50);
         LotStatus lot_status_1 = new LotStatus();
         lot_status_1.setOccupied(0);
+        lot_status_1.setCapacity(50);
         lot_status_1.setLastUpdate(OffsetDateTime.now());
         lot_1.setLotStatus(lot_status_1);
         lot_1 = lotRepository.save(lot_1);
 
         Lot lot_2 = new Lot();
-        lot_2.setName("Krak-2");
+        lot_2.setName("Krk-2");
         lot_2.setLocation("Krakow Warszawska 1");
         lot_2.setCapacity(100);
         LotStatus lot_status_2 = new LotStatus();
         lot_status_2.setOccupied(30);
+        lot_status_2.setCapacity(100);
         lot_status_2.setLastUpdate(OffsetDateTime.now());
         lot_2.setLotStatus(lot_status_2);
         lot_2 = lotRepository.save(lot_2);
@@ -64,7 +66,7 @@ public class DataLoader implements ApplicationRunner {
                 new Plate("KR4CG7", country_1, true),
                 new Plate("KR48CY", country_1, true),
                 new Plate("KR4CG9", country_1, true),
-                new Plate("KR447KAL", country_1, true)));
+                new Plate("KR447KA", country_1, true)));
 
         System.out.println("--------------------\n\n\n------------------------");
         for (Plate plate : plates)
@@ -72,7 +74,7 @@ public class DataLoader implements ApplicationRunner {
 
         User user = new User();
 
-        String[] plateTexts = new String[]{"Custom-123", "WAW123", "WAW456", "WAW789", "WAWABC", "WAWDEF", "WAWGHI"};
+        String[] plateTexts = new String[]{"ZGHB243", "LBIA123", "KR2341", "WZ789", "WW42ABC", "WZ455F", "WI027H"};
         for (String plateText : plateTexts) {
             Plate userPlate = new Plate();
             userPlate.setPlate(plateText);
@@ -80,16 +82,16 @@ public class DataLoader implements ApplicationRunner {
             userPlate.setUser(user);
             user.getPlates().add(userPlate);
         }
-        user.setNickname("user1");
-        user.setLogin("log@log.com");
+        user.setNickname("CompanyY");
+        user.setLogin("CompanyY@work.com");
 
         user = userRepository.saveAndFlush(user);
 
         List<Plate> user1Plates = user.getPlates();
 
         User user2 = new User();
-        Plate plate_1 = new Plate("KR-AL12", country_1, true);
-        Plate plate_2 = new Plate("ZU-5678", country_1, true);
+        Plate plate_1 = new Plate("KRAL12", country_1, true);
+        Plate plate_2 = new Plate("ZU5678", country_1, true);
         plate_1.setUser(user2);
         plate_2.setUser(user2);
 
@@ -99,8 +101,8 @@ public class DataLoader implements ApplicationRunner {
         plates.get(0).setUser(user2);
         plates.get(1).setUser(user2);
 
-        user2.setNickname("user2");
-        user2.setLogin("log@log.com");
+        user2.setNickname("CompanyX");
+        user2.setLogin("CompanyX@company.com");
         user2 = userRepository.saveAndFlush(user2);
 
         List<Plate> user2Plates = user2.getPlates();
@@ -129,6 +131,33 @@ public class DataLoader implements ApplicationRunner {
             lotEntryRepository.saveAndFlush(lotEntry);
 
         }
+
+        User private_user = new User();
+        Plate private_plate1 = new Plate("KR4E999", country_1, true);
+        Plate private_plate2 = new Plate("KR2ABC1", country_1, true);
+        private_plate1.setUser(private_user);
+        private_plate2.setUser(private_user);
+        private_plate1.setActive(true);
+        private_plate2.setActive(true);
+
+
+        private_user.getPlates().add(private_plate1);
+        private_user.getPlates().add(private_plate2);
+
+
+        private_user.setNickname("Kowalski");
+        private_user.setLogin("kowalski@test.com");
+
+        user = userRepository.saveAndFlush(private_user);
+
+
+        LotEntry lotEntry = new LotEntry();
+        lotEntry.setDateFrom(OffsetDateTime.now());
+        lotEntry.setDateTo(null);
+        lotEntry.setPayment(null);
+        lotEntry.setPlate(private_plate1);
+        lotEntry.setLot(lot_2);
+        lotEntryRepository.saveAndFlush(lotEntry);
 
 
 
