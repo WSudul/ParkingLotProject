@@ -10,6 +10,7 @@ public class UpdateUserData {
     private String nickname;
     private Set<String> addPlates;
     private Set<String> removePlates;
+    private Boolean active;
 
     public UpdateUserData() {
     }
@@ -42,5 +43,13 @@ public class UpdateUserData {
 
     public void setRemovePlates(Set<String> removePlates) {
         this.removePlates = removePlates;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }
