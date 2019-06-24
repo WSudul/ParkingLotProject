@@ -5,6 +5,7 @@ import lot.repository.PlateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,4 +48,10 @@ public class PlateService {
     }
 
 
+    public List<Plate> findAll(boolean onlyActive) {
+        if (onlyActive)
+            return plateRepository.findAllByActiveIs(onlyActive);
+        else
+            return plateRepository.findAll();
+    }
 }
