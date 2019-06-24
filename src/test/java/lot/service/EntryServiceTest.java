@@ -85,7 +85,7 @@ public class EntryServiceTest {
         Set<LotEntry> lotEntries = Set.of(lotEntry1, lotEntry2);
 
         when(lotEntryRepositoryMock.findAllByDateToIsNull()).thenReturn(lotEntries);
-        Set<LotEntry> entries = entryService.currentLotStatus();
+        Set<LotEntry> entries = entryService.currentActiveEntries();
         assertEquals(lotEntries, entries);
 
     }
