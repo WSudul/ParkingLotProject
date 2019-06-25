@@ -28,9 +28,9 @@ public class UserMVCController {
         this.userService = userService;
     }
 
-    @GetMapping("/index")
+    @GetMapping(value = {"/index", "", "all"})
     public String showAllusers(Model model) {
-        System.out.println("\n\n-----------\n" + userService.findAllUsers().size());
+        //System.out.println("\n\n-----------\n" + userService.findAllUsers().size());
         model.addAttribute("users", userService.findAllUsers());
         return "index";
     }

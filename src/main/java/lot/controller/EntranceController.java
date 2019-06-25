@@ -56,7 +56,7 @@ public class EntranceController {
         Optional<Lot> lot = lotService.getLot(message.getRequester());
 
         PlateValidationResponse response = new PlateValidationResponse();
-        response.setPlate(message.getPlate());
+
 
         if (!lot.isPresent()) {
             response.setValidation(false);
@@ -64,24 +64,21 @@ public class EntranceController {
             return response;
         }
 
-        Optional<Plate> matchingPlate = plateService.findMatchingPlate(message.getPlate());
-
+        Optional<Plate> matchingPlate = plateService.findMatchingPlate(message.getPlates());
 
 
 
         boolean is_plate_found = matchingPlate.isPresent();
         if (is_plate_found) {
             boolean result = entryService.logEntry(matchingPlate.get(), lot.get());
+
+            response.setPlate(matchingPlate.get().getPlate());
             response.setValidation(result);
             if (!result)
                 response.setDetails(new ArrayList<>(List.of("Vehicle is already in the lot")));
             else {
                 lotService.incrementOccupiedCount(lot.get());
             }
-
-
-
-
         } else {
             response.setValidation(false);
             response.setDetails(new ArrayList<>(List.of("Plate not recognized by system")));
@@ -98,7 +95,6 @@ public class EntranceController {
 
 
         PlateValidationResponse response = new PlateValidationResponse();
-        response.setPlate(message.getPlate());
 
         if (!lot.isPresent()) {
             response.setValidation(false);
@@ -106,11 +102,12 @@ public class EntranceController {
             return response;
         }
 
-        Optional<Plate> matchingPlate = plateService.findMatchingPlate(message.getPlate());
+        Optional<Plate> matchingPlate = plateService.findMatchingPlate(message.getPlates());
 
         boolean is_plate_found = matchingPlate.isPresent();
         if (is_plate_found) {
             boolean result = entryService.logDeparture(matchingPlate.get(), lot.get());
+            response.setPlate(matchingPlate.get().getPlate());
             response.setValidation(result);
             if (!result) {
                 response.setDetails(new ArrayList<>(List.of("Vehicle is not in the lot")));

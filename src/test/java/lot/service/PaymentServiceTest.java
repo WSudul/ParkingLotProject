@@ -75,7 +75,7 @@ public class PaymentServiceTest {
         ArgumentCaptor<Payment> argumentCaptor = ArgumentCaptor.forClass(Payment.class);
 
         when(paymentRepositoryMock.save(Mockito.any(Payment.class))).thenReturn(persistedPayment);
-        //when(creditRepositoryMock.findOneByUser(lotEntry.getPlate().getUser())).thenReturn(Optional.ofNullable
+        //when(creditRepositoryMock.findOneByUser(lotEntry.getPlates().getUser())).thenReturn(Optional.ofNullable
         // (credit));
 
         assertTrue(paymentService.processPayment(lotEntry));
@@ -91,7 +91,8 @@ public class PaymentServiceTest {
     public void processPayment_ReturnsFalse_WhenUserHasNoFunds() throws Exception {
         credit.setValue(LOW_CREDIT);
 
-        //when(creditRepositoryMock.findOneByUser(lotEntry.getPlate().getUser())).thenReturn(Optional.ofNullable(credit));
+        //when(creditRepositoryMock.findOneByUser(lotEntry.getPlates().getUser())).thenReturn(Optional.ofNullable
+        // (credit));
 
         assertFalse(paymentService.processPayment(lotEntry));
 
