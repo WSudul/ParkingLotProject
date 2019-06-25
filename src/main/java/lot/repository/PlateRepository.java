@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface PlateRepository extends JpaRepository<Plate, Long> {
     Optional<Plate> findOneByPlate(String plate);
 
+    Optional<Plate> findFirstByPlateIn(List<String> plates);
     List<Plate> findAllByActiveIs(Boolean active);
 }

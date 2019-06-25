@@ -1,18 +1,20 @@
 package lot.model;
 
+import java.util.List;
+
 public class PlateValidationRequest {
-    private String plate;
+    private List<String> plates;
     private String requester;
 
     public PlateValidationRequest() {
     }
 
-    public String getPlate() {
-        return plate;
+    public List<String> getPlates() {
+        return plates;
     }
 
-    public void setPlate(String plate) {
-        this.plate = plate;
+    public void setPlates(List<String> plates) {
+        this.plates = plates;
     }
 
     public String getRequester() {

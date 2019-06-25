@@ -54,4 +54,9 @@ public class PlateService {
         else
             return plateRepository.findAll();
     }
+
+    public Optional<Plate> findMatchingPlate(List<String> plates) {
+        return plateRepository.findFirstByPlateIn(plates);
+
+    }
 }
