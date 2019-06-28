@@ -41,13 +41,13 @@
             <tr th:each="entry : ${entryHistory}">
                 <td th:text="${entry.plate.plate}"></td>
                 <td th:text="${#temporals.format(entry.dateFrom.toLocalTime(),'yyyy-MM-dd HH:mm:ss')}"></td>
-                <td th:text="${entry.dateTo==null?'Active':
+                <td th:text="${entry.dateTo==null?'Active entry':
                             #temporals.format(entry.dateTo.toLocalTime(),'yyyy-MM-dd HH:mm:ss')}">
                 </td>
 
 
                 <td th:with="minutes=${T(java.time.temporal.ChronoUnit).MINUTES}"
-                    th:text="${entry.dateTo==null?'Active':minutes.between(entry.dateFrom,entry.dateTo)}"
+                    th:text="${entry.dateTo==null?'Active entry':minutes.between(entry.dateFrom,entry.dateTo)}"
                 >
                     Active
                 </td>
