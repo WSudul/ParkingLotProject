@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import plate.PlateValidation;
 
 import java.util.Optional;
 
@@ -40,7 +39,6 @@ public class PlateServiceTest {
     @Test
     public void findMatchingPlate_shouldReturnNull_WhenNoMatchingPlateExists() throws Exception {
         String plateText = "ABC-MISING";
-        PlateValidation.Plate plate = PlateValidation.Plate.newBuilder().setPlate(plateText).build();
 
         assertEquals(null, plateService.findMatchingPlate(plateText));
 

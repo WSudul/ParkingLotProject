@@ -1,6 +1,6 @@
 package lot.controller;
 
-import com.google.protobuf.Timestamp;
+
 import lot.model.Lot;
 import lot.model.Plate;
 import lot.model.PlateValidationRequest;
@@ -9,16 +9,12 @@ import lot.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import plate.PlateValidation;
 
 import java.time.Clock;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -125,30 +121,6 @@ public class EntranceController {
 
     }
 
-    private ResponseEntity<PlateValidation.PlateValidationResponse> buildResponse(PlateValidation
-                                                                                          .PlateValidationResponse
-                                                                                          .Builder builder, boolean
-            result, List<String> details) {
-        if (result) {
-            builder.setValidated(true);
-            return ResponseEntity.ok().body(builder.build());
-        } else {
-            builder.setValidated(false);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(builder.build());
-
-        }
-    }
-
-    private PlateValidation.PlateValidationResponse.Builder addCurrentTimestamp(PlateValidation
-                                                                                        .PlateValidationResponse
-                                                                                        .Builder builder) {
-        Instant instant = clock.instant();
-        Timestamp timestamp = Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano())
-                .build();
-        builder.setTimestamp(timestamp);
-
-        return builder;
-    }
 
 
 
