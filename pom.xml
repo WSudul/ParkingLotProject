@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <h2database.version>1.4.196</h2database.version>
+        <h2database.version>2.1.210</h2database.version>
         <java-xml-bind.version>2.3.0</java-xml-bind.version>
         <java.version>9</java.version>
 
